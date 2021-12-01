@@ -17,6 +17,7 @@ studentNode *head, *p, *q;
 
 void init(studentT &student, string id, int score1, int score2, int score3, char name[52])
 {
+
     student.id = id;
     student.score1 = score1;
     student.score2 = score2;
@@ -29,12 +30,29 @@ void output(studentT student)
 {
     cout << student.id << ' ' << student.name << ' ' << student.score1 << ' ' << student.score2 << ' ' << student.score3 << endl;
 }
-studentNode &findByID(string id)
+studentNode &findByID(string id, bool isNext = false)
 {
-    for (p = q; p != NULL; p = p->next)
-        if (!(p->data).id.compare(id))
-            return *p;
+    if (isNext)
+    {
+        for (p = q; p != NULL; p = p->next)
+            if ((p->next != NULL) && !(p->next->data).id.compare(id))
+                return *p;
+    }
+    else
+    {
+        for (p = q; p != NULL; p = p->next)
+            if (!(p->data).id.compare(id))
+                return *p;
+    }
     return *head;
+}
+void deleteStudent(studentNode &student)
+{
+    studentNode *temp = &student;
+    studentNode *pos = &findByID(temp->data.id,true);
+    pos->next = temp->next;
+    delete temp;
+    delete &student;
 }
 int main()
 {
@@ -64,7 +82,9 @@ int main()
             cin.getline(name, 51);
             init(findByID(id).data, id, score1, score2, score3, name);
             break;
+        case 3:
 
+            break;
         default:
             break;
         }
