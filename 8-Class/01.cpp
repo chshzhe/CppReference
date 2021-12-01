@@ -1,57 +1,27 @@
+#include "circle.h"
 #include <iostream>
-
 using namespace std;
-
-struct clockT
-{
-    int hh;
-    int mm;
-    int ss;
-};
-void setTime(clockT &c, int hh, int mm, int ss);
-void increase(clockT &c);
-void showTime(clockT &c);
-
 int main()
 {
-    int hh, mm, ss;
-    clockT c;
-    for (int i = 0; i < 2; i++)
-    {
-        cin >> hh >> mm >> ss;
-        setTime(c, hh, mm, ss);
-        showTime(c);
-        increase(c);
-        showTime(c);
-    }
-    return 0;
-}
+    int x, y, r;
+    cin >> x >> y >> r;
+    Circle c(x, y, r);
 
-void setTime(clockT &c, int hh, int mm, int ss)
-{
-    c.hh = hh;
-    c.mm = mm;
-    c.ss = ss;
-}
-void increase(clockT &c)
-{
-    ++c.ss;
-    if (c.ss == 60)
-    {
-        ++c.mm;
-        c.ss = 0;
-    }
-    if (c.mm == 60)
-    {
-        ++c.hh;
-        c.mm = 0;
-    }
-    if (c.hh == 24)
-    {
-        c.hh = 0;
-    }
-}
-void showTime(clockT &c)
-{
-    printf("%02d:%02d:%02d\n", c.hh, c.mm, c.ss);
+    int cx, cy;
+    c.getO(cx, cy);
+    cout << cx << ' ' << cy << endl;
+    cout << c.getR() << endl;
+
+    int move_x, move_y;
+    cin >> move_x >> move_y;
+    c.move(move_x, move_y);
+    c.getO(cx, cy);
+    cout << cx << ' ' << cy << endl;
+
+    int new_r;
+    cin >> new_r;
+    c.setR(new_r);
+    cout << c.getR() << endl;
+
+    return 0;
 }
