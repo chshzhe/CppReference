@@ -1,51 +1,73 @@
 #include <iostream>
 #include <cstring>
 using namespace std;
-int LENGTH = 1000;
 int top = 0;
 struct studentT
 {
     string id;
     int score1, score2, score3;
     char name[52];
+    int sum;
 };
-struct studentNode
-{
-    studentT data;
-    studentNode *next;
-};
+studentT arr[1000];
 
-void init(studentT &student, string id, int score1, int score2, int score3, char name[52])
+void init(int pos, string id, int score1, int score2, int score3, char name[52])
 {
 
-    student.id = id;
-    student.score1 = score1;
-    student.score2 = score2;
-    student.score3 = score3;
+    arr[pos].id = id;
+    arr[pos].score1 = score1;
+    arr[pos].score2 = score2;
+    arr[pos].score3 = score3;
+    arr[pos].sum = score1 + score2 + score3;
     for (int i = 1; i < strlen(name); i++)
-        student.name[i - 1] = name[i];
-    student.name[strlen(name) - 1] = '\0';
+        arr[pos].name[i - 1] = name[i];
+    arr[pos].name[strlen(name) - 1] = '\0';
 }
 void output(studentT student)
 {
-    cout << student.id << ' ' << student.name << ' ' << student.score1 << ' ' << student.score2 << ' ' << student.score3 << endl;
+    cout << student.id << ' ' << student.name << ' ' << student.score1 << ' ' << student.score2 << ' ' << student.score3 << ' ' << endl;
 }
-int findByID(studentT arr[], string id)
+int findByID(string id)
 {
     for (int i = 0; i < top; i++)
         if (arr[i].id.compare(id) == 0)
             return i;
     return -1;
 }
-void deleteStudent(studentT arr[], int pos)
+void deleteStudent(int pos)
 {
-    for (int i = pos; i < top; i++)
-        arr[i] = arr[i + 1];
-    top--;
+    if (pos != -1)
+    {
+        for (int i = pos; i < top; i++)
+            arr[i] = arr[i + 1];
+        top--;
+    }
+}
+void sortByID()
+{
+    for (int i = 0; i < top - 1; i++)
+        for (int j = i + 1; j < top; j++)
+            if (arr[i].id > arr[j].id)
+            {
+                studentT temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+}
+void sortBySum()
+{
+    for (int i = 0; i < top - 1; i++)
+        for (int j = i + 1; j < top; j++)
+            if ((arr[i].sum < arr[j].sum) || ((arr[i].sum == arr[j].sum) && (arr[i].id > arr[j].id)))
+            {
+                studentT temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
 }
 int main()
 {
-    studentT arr[LENGTH];
+
     int op;
     cin >> op;
     while (op != 0)
@@ -53,28 +75,61 @@ int main()
         string id;
         int score1, score2, score3;
         char name[52];
+        int pos;
         switch (op)
         {
         case 1:
             cin >> id >> score1 >> score2 >> score3;
             cin.getline(name, 51);
-            init(arr[top++], id, score1, score2, score3, name);
+            pos = findByID(id);
+            if (pos == -1)
+            {
+                init(top, id, score1, score2, score3, name);
+                top++;
+            }
+            else
+                init(pos, id, score1, score2, score3, name);
             break;
         case 2:
             cin >> id >> score1 >> score2 >> score3;
             cin.getline(name, 51);
-            init(arr[findByID(arr, id)], id, score1, score2, score3, name);
+            pos = findByID(id);
+            if (pos != -1)
+                init(pos, id, score1, score2, score3, name);
             break;
         case 3:
-
+            cin >> id;
+            pos = findByID(id);
+            deleteStudent(pos);
+            break;
+        case 4:
+            cin >> id;
+            pos = findByID(id);
+            if (pos != -1)
+                output(arr[pos]);
+            break;
+        case 5:
+            getchar();
+            cin.getline(name, 51);
+            for (int i = 0; i < top; i++)
+                if (strcmp(arr[i].name, name) == 0)
+                    output(arr[i]);
+            break;
+        case 6:
+            for (int i = 0; i < top; i++)
+                output(arr[i]);
+            break;
+        case 7:
+            sortBySum();
+            for (int i = 0; i < top; i++)
+                output(arr[i]);
             break;
         default:
             break;
         }
+        sortByID();
         cin >> op;
     }
-    for (int i = 0; i < top; i++)
-        output(arr[i]);
-    cout << endl;
+
     return 0;
 }
