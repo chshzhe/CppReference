@@ -29,7 +29,14 @@ void output(studentT student)
 {
     cout << student.id << ' ' << student.name << ' ' << student.score1 << ' ' << student.score2 << ' ' << student.score3 << endl;
 }
-studentNode findByID int main()
+studentNode &findByID(string id)
+{
+    for (p = q; p != NULL; p = p->next)
+        if (!(p->data).id.compare(id))
+            return *p;
+    return *head;
+}
+int main()
 {
 
     head = NULL;
@@ -51,15 +58,13 @@ studentNode findByID int main()
             init(p->data, id, score1, score2, score3, name);
             q = p;
             break;
-        
-        case 2:
 
+        case 2:
             cin >> id >> score1 >> score2 >> score3;
             cin.getline(name, 51);
-            init(p->data, id, score1, score2, score3, name);
-
+            init(findByID(id).data, id, score1, score2, score3, name);
             break;
-    
+
         default:
             break;
         }
