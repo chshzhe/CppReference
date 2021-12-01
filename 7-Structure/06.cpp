@@ -1,7 +1,8 @@
 #include <iostream>
 #include <cstring>
 using namespace std;
-
+int LENGTH = 1000;
+int top = 0;
 struct studentT
 {
     string id;
@@ -13,7 +14,6 @@ struct studentNode
     studentT data;
     studentNode *next;
 };
-studentNode *head, *p, *q;
 
 void init(studentT &student, string id, int score1, int score2, int score3, char name[52])
 {
@@ -30,35 +30,22 @@ void output(studentT student)
 {
     cout << student.id << ' ' << student.name << ' ' << student.score1 << ' ' << student.score2 << ' ' << student.score3 << endl;
 }
-studentNode &findByID(string id, bool isNext = false)
+int findByID(studentT arr[], string id)
 {
-    if (isNext)
-    {
-        for (p = q; p != NULL; p = p->next)
-            if ((p->next != NULL) && !(p->next->data).id.compare(id))
-                return *p;
-    }
-    else
-    {
-        for (p = q; p != NULL; p = p->next)
-            if (!(p->data).id.compare(id))
-                return *p;
-    }
-    return *head;
+    for (int i = 0; i < top; i++)
+        if (arr[i].id.compare(id) == 0)
+            return i;
+    return -1;
 }
-void deleteStudent(studentNode &student)
+void deleteStudent(studentT arr[], int pos)
 {
-    studentNode *temp = &student;
-    studentNode *pos = &findByID(temp->data.id,true);
-    pos->next = temp->next;
-    delete temp;
-    delete &student;
+    for (int i = pos; i < top; i++)
+        arr[i] = arr[i + 1];
+    top--;
 }
 int main()
 {
-
-    head = NULL;
-    q = head;
+    studentT arr[LENGTH];
     int op;
     cin >> op;
     while (op != 0)
@@ -69,18 +56,14 @@ int main()
         switch (op)
         {
         case 1:
-            p = new studentNode;
-            p->next = q;
             cin >> id >> score1 >> score2 >> score3;
             cin.getline(name, 51);
-            init(p->data, id, score1, score2, score3, name);
-            q = p;
+            init(arr[top++], id, score1, score2, score3, name);
             break;
-
         case 2:
             cin >> id >> score1 >> score2 >> score3;
             cin.getline(name, 51);
-            init(findByID(id).data, id, score1, score2, score3, name);
+            init(arr[findByID(arr, id)], id, score1, score2, score3, name);
             break;
         case 3:
 
@@ -90,10 +73,8 @@ int main()
         }
         cin >> op;
     }
-    for (p = q; p != NULL; p = p->next)
-    {
-        output(p->data);
-    };
+    for (int i = 0; i < top; i++)
+        output(arr[i]);
     cout << endl;
     return 0;
 }
