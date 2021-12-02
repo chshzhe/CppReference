@@ -5,7 +5,6 @@ using namespace std;
 
 int main()
 {
-
     bigInt x1;
     bigInt x2;
     x1.read();
