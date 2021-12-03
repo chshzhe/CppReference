@@ -12,27 +12,23 @@ void bigInt::doubleSpace()
     delete[] bits;
     bits = newBits;
     maxLength *= 2;
-    cout << "double complete!" << endl;
 }
 void bigInt::read()
 {
     char ch;
     maxLength = 10000;
     length = 0;
-    cout << "init" << endl;
     bits = new int[maxLength];
-    cout << "init" << endl;
-    ch = getchar();
+    ch = cin.get();
     while (ch != '\n')
     {
-        cout << ch << endl;
-        bits[length] = int(ch - '0');
+        bits[length] = ch - '0';
         length++;
         if (length >= (maxLength - 1))
-            doubleSpace();
-        ch = getchar();
+            bigInt::doubleSpace();
+        if ((ch = cin.get()) == EOF)
+            break; // cnmcnmcnmcnm!!! 就这Educoder一直卡住不让我过
     }
-    cout << "read complete!" << endl;
 }
 
 void bigInt::init(int *ans, int l)
@@ -40,12 +36,11 @@ void bigInt::init(int *ans, int l)
     bits = ans;
     length = l;
     maxLength = length + 1;
-    cout << "init complete!" << endl;
 }
 bigInt sum(bigInt x1, bigInt x2)
 {
     int length1 = x1.getLength(), length2 = x2.getLength();
-    int maxLength = max(length1, length2);
+    long long maxLength = max(length1, length2);
     int *ans;
     ans = new int[maxLength + 1];
     for (int i = 0; i < maxLength + 1; i++)
@@ -63,7 +58,6 @@ bigInt sum(bigInt x1, bigInt x2)
         result.init(ans + 1, maxLength);
     else
         result.init(ans, maxLength + 1);
-    delete[] ans;
     return result;
 }
 
