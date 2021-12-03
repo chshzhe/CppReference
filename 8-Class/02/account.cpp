@@ -11,10 +11,7 @@ void SavingAccount::display()
 }
 void SavingAccount::calculate()
 {
-    //money = int(money * (1 + rate) * 100.0) / 100.0;
-    money = money * (1 + rate);
-    //money = round(money * (1 + rate) * 100.0) / 100.0;
-    //Why??? 
+    money = money + money * rate; // money * (1 + rate)就不过
 }
 void SavingAccount::changerate(double newRate)
 {
