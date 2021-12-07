@@ -1,3 +1,9 @@
 .vscode/*
 *.docx
 *.exe
+test/*
+c_cpp_properties.json
+launch.json
+settings.json
+tasks.json
+.vscode/
