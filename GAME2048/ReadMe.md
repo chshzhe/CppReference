@@ -9,6 +9,6 @@
 
 ### 关于
 
-- 作者：陈爽哲 519070910059
+- 作者：**chshzhe**
 - [My-Github](https://github.com/chshzhe)
 
